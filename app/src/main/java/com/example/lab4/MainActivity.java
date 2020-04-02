@@ -25,4 +25,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Write.class);
         startActivity(intent);
     }
+
+    public void track(View view) {
+        Intent intent = new Intent(this, FitnessTracker.class);
+        startActivity(intent);
+    }
 }
