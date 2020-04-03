@@ -110,10 +110,12 @@ public class sign_up extends AppCompatActivity {
                                     Log.d(TAG,"onSuccess: user profile is created for "+ userID);
                                 }
                             });
-                            if(userType == "trainer"){
+                            if(trainer == true){
                                 startActivity(new Intent(getApplicationContext(), TrainerActivity.class));
+                            }else{
+                                startActivity(new Intent(getApplicationContext(),MainActivity.class));
                             }
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+
                         }else{
                             Toast.makeText(getApplicationContext(), "Error! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
