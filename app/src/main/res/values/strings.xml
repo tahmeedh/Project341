@@ -5,4 +5,23 @@
         <item>DATA</item>
         <item>MATH</item>
     </string-array>
+    <string-array name="ary_Reps">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="ary_Client">
+        <item>Jason Yoon</item>
+        <item>Nick Hemingway</item>
+        <item>Tamid Hossain</item>
+        <item>Joseph Choi</item>
+    </string-array>
+    <string-array name="ary_Exercise">
+        <item>exercise1</item>
+        <item>exercise2</item>
+        <item>exercise3</item>
+        <item>exercise4</item>
+    </string-array>
 </resources>
