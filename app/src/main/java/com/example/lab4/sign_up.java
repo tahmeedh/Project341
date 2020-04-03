@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import java.util.Map;
 public class sign_up extends AppCompatActivity {
 
 
+    public static final String TAG = "TAG";
     EditText name,email,password;
     Button submit;
     TextView login;
@@ -37,8 +39,8 @@ public class sign_up extends AppCompatActivity {
     RadioGroup gender;
     String userID;
     FirebaseFirestore fstore;
-
-
+    Switch s;
+    String userType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +54,7 @@ public class sign_up extends AppCompatActivity {
         gender = findViewById(R.id.gender);
         fAuth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
-
+        s = findViewById(R.id.userType);
 
 
 
@@ -67,7 +69,8 @@ public class sign_up extends AppCompatActivity {
                 final String vpassword = password.getText().toString().trim();
                 final String vname = name.getText().toString();
                 final String vgender = selectedRadioButton.getText().toString().trim();
-
+                Boolean trainer = s.isChecked();
+                FirebaseFirestore.setLoggingEnabled(true);
 
                 if(TextUtils.isEmpty(vemail)){
                     email.setError("Email is Required");
@@ -83,6 +86,11 @@ public class sign_up extends AppCompatActivity {
                     password.setError("Password Must be at Least 6 Characters");
                     return;
                 }
+                if (trainer == true){
+                    userType = "Trainer";
+                }else{
+                    userType = "Client";
+                }
 
                 fAuth.createUserWithEmailAndPassword(vemail,vpassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -95,10 +103,11 @@ public class sign_up extends AppCompatActivity {
                             user.put("name",vname);
                             user.put("email",vemail);
                             user.put("gender",vgender);
+                            user.put("UserType",userType);
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Toast.makeText(getApplicationContext(), "User Successfully Created", Toast.LENGTH_SHORT).show();
+                                    Log.d(TAG,"onSuccess: user profile is created for "+ userID);
                                 }
                             });
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
@@ -118,4 +127,5 @@ public class sign_up extends AppCompatActivity {
         });
 
     }
+
 }
