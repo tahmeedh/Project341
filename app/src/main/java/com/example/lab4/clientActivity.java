@@ -39,6 +39,7 @@ public class clientActivity extends AppCompatActivity {
         ut = findViewById(R.id.ut);
         logout = findViewById(R.id.logout);
 
+
         DocumentReference dRef = fStore.collection("users").document(userId);
         dRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override

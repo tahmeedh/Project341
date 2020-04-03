@@ -27,3 +27,4 @@ public class trainerActivity extends AppCompatActivity {
         });
     }
 }
+
