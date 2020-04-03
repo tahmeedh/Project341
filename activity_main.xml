@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/button_Submit"
+        android:layout_width="102dp"
+        android:layout_height="51dp"
+        android:text="Submit"
+        app:layout_constraintEnd_toEndOf="@+id/editText"
+        app:layout_constraintTop_toTopOf="@+id/button_Back" />
+
+    <TextView
+        android:id="@+id/textView_Comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Comment:"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/textView_Reps"
+        app:layout_constraintTop_toBottomOf="@+id/textView_Reps" />
+
+    <Spinner
+        android:id="@+id/spinner_Reps"
+        android:layout_width="255dp"
+        android:layout_height="36dp"
+        app:layout_constraintStart_toStartOf="@+id/spinner_Exercise"
+        app:layout_constraintTop_toTopOf="@+id/textView_Reps" />
+
+    <Spinner
+        android:id="@+id/spinner_Client"
+        android:layout_width="255dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        app:layout_constraintStart_toEndOf="@+id/text_Client"
+        app:layout_constraintTop_toTopOf="@+id/text_Client" />
+
+    <TextView
+        android:id="@+id/text_Client"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="36dp"
+        android:text="Client:"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Exercise:"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/text_Client"
+        app:layout_constraintTop_toBottomOf="@+id/text_Client" />
+
+    <Spinner
+        android:id="@+id/spinner_Exercise"
+        android:layout_width="255dp"
+        android:layout_height="36dp"
+        app:layout_constraintStart_toStartOf="@+id/spinner_Client"
+        app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/textView_Reps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Reps:"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="349dp"
+        android:layout_height="159dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Add a comment"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/textView_Comment"
+        app:layout_constraintTop_toBottomOf="@+id/textView_Comment" />
+
+    <Button
+        android:id="@+id/button_Back"
+        android:layout_width="102dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="12dp"
+        android:text="Back"
+        app:layout_constraintStart_toStartOf="@+id/editText"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="36dp"
+        android:text="Assign a workout to the client"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
