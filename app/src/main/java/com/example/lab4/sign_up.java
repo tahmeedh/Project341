@@ -69,7 +69,7 @@ public class sign_up extends AppCompatActivity {
                 final String vpassword = password.getText().toString().trim();
                 final String vname = name.getText().toString();
                 final String vgender = selectedRadioButton.getText().toString().trim();
-                Boolean trainer = s.isChecked();
+                final Boolean trainer = s.isChecked();
                 FirebaseFirestore.setLoggingEnabled(true);
 
                 if(TextUtils.isEmpty(vemail)){
@@ -110,7 +110,11 @@ public class sign_up extends AppCompatActivity {
                                     Log.d(TAG,"onSuccess: user profile is created for "+ userID);
                                 }
                             });
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            if(trainer == true){
+                                startActivity(new Intent(getApplicationContext(),trainerActivity.class));
+                            }else {
+                                startActivity(new Intent(getApplicationContext(), clientActivity.class));
+                            }
                         }else{
                             Toast.makeText(getApplicationContext(), "Error! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
