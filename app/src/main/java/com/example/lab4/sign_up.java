@@ -111,9 +111,9 @@ public class sign_up extends AppCompatActivity {
                                 }
                             });
                             if(trainer == true){
-                                startActivity(new Intent(getApplicationContext(), TrainerActivity.class));
+                                startActivity(new Intent(getApplicationContext(), TrainActivity.class));
                             }else{
-                                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                startActivity(new Intent(getApplicationContext(),clientActivity.class));
                             }
 
                         }else{

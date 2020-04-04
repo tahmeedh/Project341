@@ -16,23 +16,23 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-public class clientActivity extends AppCompatActivity {
-    FirebaseFirestore fStore;
+public class TrainActivity extends AppCompatActivity {
+    Button logoutBtn1;
     FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
     String userId;
-    String Name;
-    TextView str;
-    Button logoutBtn2;
-
+    String userType;
+    TextView ut;
+    ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_client);
+        setContentView(R.layout.activity_train);
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         userId = fAuth.getCurrentUser().getUid();
-        str = findViewById(R.id.clientid);
-        logoutBtn2 = findViewById(R.id.logoutBtn2);
+        ut = findViewById(R.id.Nameid);
+        logoutBtn1 = findViewById(R.id.logoutBtn1);
 
 
 
@@ -40,13 +40,17 @@ public class clientActivity extends AppCompatActivity {
         dRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                Name = documentSnapshot.getString("name");
-                str.setText(Name);
+                userType = documentSnapshot.getString("UserType");
+                ut.setText(userType);
 
+                if(userType.equals("Trainer")){
+                    finish();
+                    startActivity(new Intent(getApplicationContext(),TrainActivity.class));
+                }
             }
         });
 
-        logoutBtn2.setOnClickListener(new View.OnClickListener() {
+        logoutBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

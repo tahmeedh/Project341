@@ -11,28 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".TrainActivity"></activity>
+        <activity android:name=".ProfileActivity" />
         <activity android:name=".clientActivity" />
-        <activity android:name=".TrainerActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".login" />
         <activity android:name=".Write" />
         <activity android:name=".Read" />
+        <activity android:name=".inputData_Client" />
+        <activity android:name=".inputData_Trainer" />
         <activity android:name=".sign_up">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".inputData_Client">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".inputData_Trainer">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
