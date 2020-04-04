@@ -27,6 +27,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -80,7 +81,7 @@ public class ProfileActivity extends AppCompatActivity {
             user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
+                    if(task.isSuccessful()) {
                         Toast.makeText(ProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -98,23 +99,27 @@ public class ProfileActivity extends AppCompatActivity {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriprofileimg);
                 imageView.setImageBitmap(bitmap);
-                uploadImageToFirebaseStorage();
+                uploadImageToFirebaseStorage(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void uploadImageToFirebaseStorage() {
+    private void uploadImageToFirebaseStorage(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
         StorageReference profileimg =
-                FirebaseStorage.getInstance().getReference("profilepic/" + System.currentTimeMillis() + "jpg");
+                FirebaseStorage.getInstance().getReference().child(System.currentTimeMillis() + ".jpg");
         if (uriprofileimg != null) {
             progressBar.setVisibility(View.VISIBLE);
-            profileimg.putFile(uriprofileimg).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            profileimg.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     progressBar.setVisibility(View.GONE);
-                    profileImageUrl = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+                    // profileImageUrl = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
 
 
                 }
