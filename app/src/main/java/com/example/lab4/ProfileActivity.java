@@ -111,8 +111,10 @@ public class ProfileActivity extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
 
+        String path = "users/" + mAuth.getCurrentUser().getUid() + "/" + System.currentTimeMillis() + ".jpg";
+
         StorageReference profileimg =
-                FirebaseStorage.getInstance().getReference().child(System.currentTimeMillis() + ".jpg");
+                FirebaseStorage.getInstance().getReference().child(path);
         if (uriprofileimg != null) {
             progressBar.setVisibility(View.VISIBLE);
             profileimg.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
