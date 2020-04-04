@@ -21,7 +21,7 @@ public class TrainActivity extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userId;
-    String userType;
+    String name;
     TextView ut;
     ;
     @Override
@@ -40,13 +40,11 @@ public class TrainActivity extends AppCompatActivity {
         dRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                userType = documentSnapshot.getString("UserType");
-                ut.setText(userType);
+                name = documentSnapshot.getString("name");
 
-                if(userType.equals("Trainer")){
-                    finish();
-                    startActivity(new Intent(getApplicationContext(),TrainActivity.class));
-                }
+                ut.setText(name);
+
+
             }
         });
 
@@ -57,5 +55,10 @@ public class TrainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),login.class));
             }
         });
+    }
+
+    public void viewProfile(View view) {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
     }
 }

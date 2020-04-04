@@ -23,6 +23,8 @@ public class clientActivity extends AppCompatActivity {
     String Name;
     TextView str;
     Button logoutBtn2;
+    String userType;
+    TextView ut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +42,14 @@ public class clientActivity extends AppCompatActivity {
         dRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                userType = documentSnapshot.getString("UserType");
                 Name = documentSnapshot.getString("name");
                 str.setText(Name);
+
+                if(userType.equals("Trainer")){
+                    finish();
+                    startActivity(new Intent(getApplicationContext(),TrainActivity.class));
+                }
 
             }
         });
@@ -53,5 +61,10 @@ public class clientActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),login.class));
             }
         });
+    }
+
+    public void showProfile(View view) {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
     }
 }
