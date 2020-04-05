@@ -39,6 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
     Uri uriprofileimg;
     String profileImageUrl;
     FirebaseAuth mAuth;
+    Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,24 +60,25 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                saveUserInfo();
+                uploadImageToFirebaseStorage(bitmap);
             }
         });
     }
 
-    private void saveUserInfo() {
+    private void setDisplayNameAndProfileURL(Uri profileURL) {
+        FirebaseUser user = mAuth.getCurrentUser();
+
         String dispName = editText.getText().toString();
         if(dispName.isEmpty()){
             editText.setError("Name Required");
             editText.requestFocus();
             return;
         }
-        FirebaseUser user = mAuth.getCurrentUser();
 
         if(user!= null){
             UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
                     .setDisplayName(dispName)
-                    .setPhotoUri(Uri.parse(profileImageUrl)).build();
+                    .setPhotoUri(profileURL).build();
 
             user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -87,6 +89,8 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             });
         }
+
+
     }
 
     @Override
@@ -97,9 +101,8 @@ public class ProfileActivity extends AppCompatActivity {
             uriprofileimg = data.getData();
 
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriprofileimg);
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriprofileimg);
                 imageView.setImageBitmap(bitmap);
-                uploadImageToFirebaseStorage(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -113,7 +116,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         String path = "users/" + mAuth.getCurrentUser().getUid() + "/" + System.currentTimeMillis() + ".jpg";
 
-        StorageReference profileimg =
+        final StorageReference profileimg =
                 FirebaseStorage.getInstance().getReference().child(path);
         if (uriprofileimg != null) {
             progressBar.setVisibility(View.VISIBLE);
@@ -121,9 +124,12 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     progressBar.setVisibility(View.GONE);
-                    // profileImageUrl = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
-
-
+                    profileimg.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            setDisplayNameAndProfileURL(uri);
+                        }
+                    });
                 }
             })
             .addOnFailureListener(new OnFailureListener() {
