@@ -33,8 +33,8 @@ public class clientActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         userId = fAuth.getCurrentUser().getUid();
-        str = findViewById(R.id.clientid);
-        logoutBtn2 = findViewById(R.id.logoutBtn2);
+        str = findViewById(R.id.Nameid);
+        logoutBtn2 = findViewById(R.id.logoutBtn1);
 
 
 
@@ -67,4 +67,11 @@ public class clientActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
+
+    public void viewProfile(View view) {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+
+    }
+
 }

@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -24,29 +25,47 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    public static final String TAG = "TAG";
     private static final int CHOOSE = 101;
+    String userId;
     EditText editText;
+    EditText ageView;
+    EditText weightView;
+    EditText goal;
     ImageView imageView;
     ProgressBar progressBar;
     Uri uriprofileimg;
     FirebaseAuth mAuth;
     Bitmap bitmap;
+    FirebaseFirestore fStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        userId = mAuth.getCurrentUser().getUid();
         mAuth = FirebaseAuth.getInstance();
+        weightView = findViewById(R.id.weight);
+        goal = findViewById(R.id.Goal);
         editText = findViewById(R.id.name);
+        ageView = findViewById(R.id.age);
+        fStore = FirebaseFirestore.getInstance();
         imageView = findViewById(R.id.imageView);
         progressBar = findViewById(R.id.progress);
 
@@ -63,6 +82,20 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                /*
+                FirebaseFirestore.setLoggingEnabled(true);
+                DocumentReference documentReference = fStore.collection("users").document(userId);
+                Map<String,Object> user = new HashMap<>();
+                user.put("age",ageView);
+                user.put("weight",weightView);
+                user.put("goal",goal);
+                documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG,"Updated "+ userId);
+                    }
+                });
+                */
                 if (bitmap != null)
                     uploadImageToFirebaseStorage(bitmap);
                 else
@@ -73,7 +106,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void setDisplayNameAndProfileURL(Uri profileURL) {
         FirebaseUser user = mAuth.getCurrentUser();
-
         String dispName = editText.getText().toString();
         if(dispName.isEmpty()){
             editText.setError("Name Required");
@@ -168,14 +200,13 @@ public class ProfileActivity extends AppCompatActivity {
         if(user.getDisplayName() != null) {
             editText.setText(user.getDisplayName());
         }
-       /* DocumentReference dRef = fStore.collection("users").document(userId);
+        /*DocumentReference dRef = fStore.collection("users").document(userId);
         dRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                age = documentSnapshot.getString("Age");
-                Name = documentSnapshot.getString("name");
-                str.setText(Name);
-                editText.setText(age);
+                 String age = documentSnapshot.getString("Age");
+                 String Name = documentSnapshot.getString("name");
+                ageView.setText(age);
 
 
             }
