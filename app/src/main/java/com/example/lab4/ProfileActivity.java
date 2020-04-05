@@ -38,7 +38,6 @@ public class ProfileActivity extends AppCompatActivity {
     ImageView imageView;
     ProgressBar progressBar;
     Uri uriprofileimg;
-    String profileImageUrl;
     FirebaseAuth mAuth;
     Bitmap bitmap;
 
@@ -47,9 +46,11 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         mAuth = FirebaseAuth.getInstance();
-        editText = findViewById(R.id.age);
+        editText = findViewById(R.id.name);
         imageView = findViewById(R.id.imageView);
         progressBar = findViewById(R.id.progress);
+
+        loadUserInfo();
 
         imageView.setOnClickListener(new OnClickListener() {
             @Override
@@ -62,7 +63,10 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                uploadImageToFirebaseStorage(bitmap);
+                if (bitmap != null)
+                    uploadImageToFirebaseStorage(bitmap);
+                else
+                    setDisplayNameAndProfileURL(null);
             }
         });
     }
@@ -78,9 +82,13 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         if(user!= null){
-            UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
-                    .setDisplayName(dispName)
-                    .setPhotoUri(profileURL).build();
+            UserProfileChangeRequest profile;
+            if (profileURL != null)
+                profile = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(dispName).setPhotoUri(profileURL).build();
+            else
+                profile = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(dispName).build();
 
             user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
