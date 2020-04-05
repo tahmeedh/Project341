@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -49,6 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
         editText = findViewById(R.id.age);
         imageView = findViewById(R.id.imageView);
         progressBar = findViewById(R.id.progress);
+
         imageView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,5 +151,29 @@ public class ProfileActivity extends AppCompatActivity {
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(intent, "Select Profile Image"), CHOOSE);
         }
+    private void loadUserInfo() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user.getPhotoUrl() == null) {
+        } else {
+            Glide.with(this).load(user.getPhotoUrl().toString()).into(imageView);
+        }
+        if(user.getDisplayName() != null) {
+            editText.setText(user.getDisplayName());
+        }
+       /* DocumentReference dRef = fStore.collection("users").document(userId);
+        dRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                age = documentSnapshot.getString("Age");
+                Name = documentSnapshot.getString("name");
+                str.setText(Name);
+                editText.setText(age);
+
+
+            }
+        });
+*/
+    }
+
 
 }
