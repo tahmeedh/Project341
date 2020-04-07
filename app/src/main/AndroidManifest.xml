@@ -11,20 +11,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".notificationbutton"></activity>
+        <activity android:name=".sign_up"></activity>
         <activity android:name=".clientActivity" />
         <activity android:name=".trainerActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".login" />
         <activity android:name=".Write" />
         <activity android:name=".Read" />
-        <activity android:name=".sign_up">
+        <activity android:name=".notificationbutton">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".AlarmReceiver"/>
+
+        <receiver android:name=".notificationbutton"/>
 
         <meta-data
             android:name="preloaded_fonts"
