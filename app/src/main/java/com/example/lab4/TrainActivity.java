@@ -71,4 +71,9 @@ public class TrainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, notificationbutton.class);
         startActivity(intent);
     }
+    public void showLift(View view){
+        Intent intent = new Intent(this, inputData_Client.class);
+        intent.putExtra("Name", name);
+        startActivity(intent);
+    }
 }

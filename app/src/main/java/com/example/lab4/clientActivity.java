@@ -37,7 +37,6 @@ public class clientActivity extends AppCompatActivity {
         logoutBtn2 = findViewById(R.id.logoutBtn1);
 
 
-
         DocumentReference dRef = fStore.collection("users").document(userId);
         dRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
@@ -75,6 +74,7 @@ public class clientActivity extends AppCompatActivity {
     }
     public void showWorkout(View view){
         Intent intent  = new Intent(this, inputData_Client.class);
+        intent.putExtra("Name", Name);
         startActivity(intent);
     }
 
