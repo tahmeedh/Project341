@@ -102,6 +102,7 @@ public class ProfileActivity extends AppCompatActivity {
                 documentReference.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        startActivity(new Intent(getApplicationContext(),clientActivity.class));
                         Log.d(TAG,"onSuccess: user profile is created for "+ userId);
                     }
                 });
