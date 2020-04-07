@@ -44,10 +44,13 @@ public class ProfileActivity extends AppCompatActivity {
     public static final String TAG = "TAG";
     private static final int CHOOSE = 101;
     String userId;
+    String age;
+    String weight;
+    String goal;
     EditText editText;
     EditText ageView;
     EditText weightView;
-    EditText goal;
+    EditText goalView;
     ImageView imageView;
     ProgressBar progressBar;
     Uri uriprofileimg;
@@ -59,16 +62,18 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        userId = mAuth.getCurrentUser().getUid();
         mAuth = FirebaseAuth.getInstance();
+        userId = mAuth.getCurrentUser().getUid();
+
         weightView = findViewById(R.id.weight);
-        goal = findViewById(R.id.Goal);
+        goalView = findViewById(R.id.Goal);
         editText = findViewById(R.id.name);
         ageView = findViewById(R.id.age);
         fStore = FirebaseFirestore.getInstance();
         imageView = findViewById(R.id.imageView);
         progressBar = findViewById(R.id.progress);
 
+        //ageView.setText(userId);
         loadUserInfo();
 
         imageView.setOnClickListener(new OnClickListener() {
@@ -82,20 +87,25 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                /*
+
+                age = ageView.getText().toString();
+                weight = weightView.getText().toString();
+                goal = goalView.getText().toString();
+
                 FirebaseFirestore.setLoggingEnabled(true);
                 DocumentReference documentReference = fStore.collection("users").document(userId);
+
                 Map<String,Object> user = new HashMap<>();
-                user.put("age",ageView);
-                user.put("weight",weightView);
-                user.put("goal",goal);
-                documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                user.put("Age", age);
+                user.put("Weight", weight);
+                user.put("Goal", goal);
+                documentReference.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG,"Updated "+ userId);
+                        Log.d(TAG,"onSuccess: user profile is created for "+ userId);
                     }
                 });
-                */
+
                 if (bitmap != null)
                     uploadImageToFirebaseStorage(bitmap);
                 else
@@ -193,25 +203,27 @@ public class ProfileActivity extends AppCompatActivity {
         }
     private void loadUserInfo() {
         FirebaseUser user = mAuth.getCurrentUser();
-        if (user.getPhotoUrl() == null) {
-        } else {
+        if (user.getPhotoUrl() != null) {
             Glide.with(this).load(user.getPhotoUrl().toString()).into(imageView);
         }
         if(user.getDisplayName() != null) {
             editText.setText(user.getDisplayName());
         }
-        /*DocumentReference dRef = fStore.collection("users").document(userId);
+        DocumentReference dRef = fStore.collection("users").document(userId);
         dRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                  String age = documentSnapshot.getString("Age");
-                 String Name = documentSnapshot.getString("name");
+                 String Weight = documentSnapshot.getString("Weight");
+                 String goals = documentSnapshot.getString("Goal");
                 ageView.setText(age);
+                weightView.setText(Weight);
+                goalView.setText(goals);
 
 
             }
         });
-*/
+
     }
 
 

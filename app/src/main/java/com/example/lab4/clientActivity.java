@@ -73,5 +73,9 @@ public class clientActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+    public void showWorkout(View view){
+        Intent intent  = new Intent(this, inputData_Client.class);
+        startActivity(intent);
+    }
 
 }

@@ -103,6 +103,9 @@ public class sign_up extends AppCompatActivity {
                             user.put("name",vname);
                             user.put("email",vemail);
                             user.put("gender",vgender);
+                            user.put("Age", null);
+                            user.put("Weight", null);
+                            user.put("Goal", null);
                             user.put("UserType",userType);
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
