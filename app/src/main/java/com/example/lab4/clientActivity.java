@@ -78,4 +78,9 @@ public class clientActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void showNotification(View view) {
+        Intent intent = new Intent(this, notificationbutton.class);
+        startActivity(intent);
+    }
+
 }

@@ -66,4 +66,9 @@ public class TrainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, FitnessTracker.class);
         startActivity(intent);
     }
+
+    public void showNotification(View view){
+        Intent intent = new Intent(this, notificationbutton.class);
+        startActivity(intent);
+    }
 }
